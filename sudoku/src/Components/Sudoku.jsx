@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./soduku.css";
 
 let arr = [
   [0, 4, 0, 0, 0, 0, 1, 7, 9],
@@ -72,10 +73,9 @@ function Sudoku() {
 
   const solve = () => {
     let possible = sudokuSolver(0);
-    console.log(possible);
+    // console.log(possible);
     if (possible) {
       setBoard([...board]);
-      //   setBoard(board.map((item) => item));
     } else {
       alert("Please try Again, Wrong answer");
       console.log(-1);
@@ -90,31 +90,27 @@ function Sudoku() {
   };
 
   const userSolve = () => {
-    solve();
-    // let flag = true;
-    // for (let i = 0; i < 9; i++) {
-    //   for (let j = 0; j < 9; j++) {
-    //     if (board[i][j] === 0) {
-    //       flag = false;
-    //       break;
-    //     }
-    //   }
-    // }
-
-    // if (flag) {
-    //   solve();
-    //   console.log(board);
-    // } else {
-    //   alert("Please fill all the squares");
-    // }
+    for (let i = 0; i < arr.length; i++) {
+      let objOne = {};
+      let objTwo = {};
+      for (let j = 0; j < arr.length; j++) {
+        objOne[arr[i][j]] = 1;
+        objTwo[arr[j][i]] = 1;
+      }
+      console.log(objOne, objTwo);
+      if (
+        Object.keys(objOne).length !== 9 ||
+        Object.keys(objTwo).length !== 9
+      ) {
+        return alert("wrong answer, try again");
+      }
+    }
+    return alert("correct");
   };
 
-  useEffect(() => {
-    // console.log(backup, "backup");
-  }, [board]);
+  useEffect(() => {}, [board]);
 
   //submitting user problem
-
   let [problem, setProblem] = useState("");
   const submitProblem = () => {
     let inp = problem.trim().split(/[\r\n]+/);
@@ -127,10 +123,10 @@ function Sudoku() {
   };
 
   //Resetting problem
-
   const resetHandler = () => {
     setBoard([...backup]);
   };
+
   return (
     <div
       style={{
@@ -149,8 +145,8 @@ function Sudoku() {
           >
             {item.map((mini, h) => (
               <input
-                style={{ width: "8%", height: "40px" }}
-                // type="number"
+                style={{ width: "7%", height: "40px", textAlign: "center" }}
+                type="number"
                 onChange={(e) => onChangeHandler(e)}
                 max="1"
                 value={mini}
@@ -159,9 +155,15 @@ function Sudoku() {
             ))}
           </div>
         ))}
-        <button onClick={() => userSolve()}>Solve it</button>
-        <button onClick={() => solve()}>Get Solution</button>
-        <button onClick={() => resetHandler()}>Reset</button>
+        <button className="btn" onClick={() => userSolve()}>
+          Solve it
+        </button>
+        <button className="btn" onClick={() => solve()}>
+          Get Solution
+        </button>
+        <button className="btn" onClick={() => resetHandler()}>
+          Reset
+        </button>
       </div>
       <div style={{ margin: "auto" }}>
         <br />
@@ -169,12 +171,13 @@ function Sudoku() {
           style={{ height: "150px", width: "150px" }}
           rows="9"
           onChange={(e) => {
-            console.log(e.target.value);
             setProblem(e.target.value);
           }}
         />
         <br />
-        <button onClick={() => submitProblem()}>submit input</button>
+        <button className="btn" onClick={() => submitProblem()}>
+          submit input
+        </button>
       </div>
     </div>
   );
