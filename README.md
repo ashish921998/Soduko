@@ -2,4 +2,4 @@
 Webapp for solving sudoku
 
 ## Demo Link
-  [https://sudokuash.netlify.app/]
+[Link](https://sudokuash.netlify.app/)
